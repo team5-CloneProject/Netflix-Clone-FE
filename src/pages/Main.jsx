@@ -1,9 +1,13 @@
 import React from 'react'
-
-const Main = () => {
+import Header from '../component/header/Header'
+import MainWarp from "../component/main/MainWarp";
+const Page = () => {
   return (
-    <div>Main</div>
-  )
-}
+    <div>
+      <Header />
+      <MainWarp />
+    </div>
+  );
+};
 
-export default Main
+export default Page;
