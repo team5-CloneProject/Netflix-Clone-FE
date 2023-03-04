@@ -1,9 +1,8 @@
 import React from 'react'
+import LoginFrom from '../components/User/LoginFrom'
 
 const Login = () => {
-  return (
-    <div>Login</div>
-  )
+  return <LoginFrom />
 }
 
-export default Login
+export default Login 
