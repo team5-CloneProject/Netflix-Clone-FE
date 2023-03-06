@@ -3,7 +3,7 @@ import { instance } from "../axios/axios";
 export const Login = async (payload) => {
   try {
     const response = await instance.post("/api/member/login", {
-      email: payload.id,
+      email: payload.email,
       password: payload.password,
     });
 
@@ -15,9 +15,9 @@ export const Login = async (payload) => {
 export const Signup = async (payload) => {
   try {
     const data = await instance.post("/api/member/signup", {
-      name: payload.id,
-      password: payload.password,
       email: payload.email,
+      password: payload.password,
+      nickname: payload.nickname,
     });
     return data;
   } catch (error) {
