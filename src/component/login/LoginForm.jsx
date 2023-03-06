@@ -1,28 +1,63 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
 import LoginHeader from './LoginHeader';
 import LoginFooter from './LoginFooter';
+import { useMutation, useQueryClient } from 'react-query';
+import { Login } from '../../api/user/user';
+import { setCookie } from '../../api/axios/cookies';
+import { Cookies } from "react-cookie";
+
 
 const LoginForm = () => {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
+  const [email, setEmail]= useState('');
+  const [password, setPassword]= useState('');
+
+  // const loginmutation = useMutation(Login, {
+  //   onSuccess : (response) => {
+  //     setCookie("access_token", response.headers.authorization);
+  //     navigate ("/");
+  //   },
+  //   onError : (response) => {
+  //     console.log("에러")
+  //   }
+  // });
+
+  const onLoginHandler = (event) => {
+    event.preventDefault();
+    const res = {
+      email, 
+      password
+    };
+    if(!email.trim() || !password.trim()){
+      alert("빈칸을 빠짐없이 입력해주세요")
+      return;
+    }
+    // loginmutation.mutate(res);
+  }
 
   return (
     <>
-    <LoginHeader />
+    <LoginHeader onSubmit={onLoginHandler}/>
     <Whole>
       <LoginContainer>
-        
         <Title>로그인</Title>
         {/* {LoginDatas.map((LoginData, idx) => {
           return <LoginInput key={idx} data={LoginData} />;
         })} */}
         <Input 
-        name='Email'
-        placeholder='이메일 주소'/>
+        type = "text"
+        value={email}
+        name='email'
+        placeholder='이메일 주소'
+        onChange={(e) => setEmail(e.target.value)}/>
         <Input 
-        name='PassW'
-        placeholder='비밀번호'/>
+        type = "text"
+        value={password}
+        name='password'
+        placeholder='비밀번호'
+        onChange={(e) => setPassword(e.target.value)}/>
         <Btn
           backColor="red"
           textColor="white"
@@ -46,15 +81,15 @@ const LoginForm = () => {
           <p>이 페이지는 아주 멋지게 만들었습니다. 한번 들어와서 구경해보시기 바랍니다.</p>
         </Footer>
       </LoginContainer>
+      <LoginFooter />
     </Whole>
-    <LoginFooter />
     </>
   );
 }
 
 export default LoginForm
 
-const Whole = styled.div`
+const Whole = styled.form`
   display: flex;
   justify-content: center;
   padding-top : 70px;
@@ -144,9 +179,13 @@ const Input = styled.input`
   background-color: #4f4f4f;
   display: block;
   font-size: 16px;
+  color : white;
   height: 50px;
   padding: 10px 11px;
   width: 100%;
   /* padding: 1px 2px; */
   margin-bottom: 16px;
+  :focus{
+    outline-color : orange;
+  }
 `
