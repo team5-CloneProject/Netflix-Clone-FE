@@ -3,58 +3,56 @@ import LoginHeader from '../login/LoginHeader'
 import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
 import { type } from '@testing-library/user-event/dist/type';
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import { Signup, CheckEmail } from '../../api/user/user';
 
 const SignupForm = () => {
-
-  const [userid, setUserid] = useState("");
   const [userpassword, setUserpassword] = useState("");
   const [uservalpassword, setUservalpassword] = useState("");
   const [useremail, setUserEmail] = useState("");
   const [usernickname, setNickname] = useState("");
 
-  const [ischeck, setIscheck] = useState(false);
-  const [isname, setIsname] = useState(false);
-  const [isemailcheck, setIsemailcheck] = useState(false);
+  const [isEmail, setIsEmail] = useState(false);
   const [passwordMatch, setPasswordMatch] = useState(false);
   const [isValidPassword, setIsValidPassword] = useState(false);
   const [isValidEmail, setIsValidEmail] = useState(false);
 
-  const navigate = useNavigate();
-  // const client = useQueryClient();
-  // const signUpMutation = useMutation(Signup, {
-  //   onSuccess: (response) => {
-  //     console.log(response);
-  //     alert("회원가입 성공?");
-  //     navigate("/login");
-  //   },
-  //   onError: (response) => {
-  //     console.log(response);
-  //     alert("뭔가 에러?");
-  //   },
-  // });
 
-  // const checkIdMutation = useMutation(CheckEmail, {
-  //   onSuccess: (response) => {
-  //     response ? setIsname(true) : setIsname(false);
-  //     if (response) {
-  //       setIsname(true);
-  //     } else {
-  //       setIsname(false);
-  //     }
-  //   },
-  // });
+  //이메일 정규표현식
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  //비밀번호 정규표현식
+  const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,}$/;
 
-  const passwordRegex =
-    /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,}$/;
+  // 이메일 확인
+  const checkEmailMutation = useMutation(CheckEmail, {
+    onSuccess: (response) => {
+      response ? setIsEmail(true) : setIsEmail(false);
+      if (response) {
+        setIsEmail(true);
+        alert("사용가능한 이메일입니다.")
+      } else {
+        setIsEmail(false);
+        alert("이미 사용중인 이메일입니다.")
+      }
+    },
+    // onError: (response) => {
 
-  const checkID = (e) => {
+    // }
+  });
+  
+  const checkEmail = (e) => {
+    e.stopPropagation();
     if (!e.target.value.trim()) return;
-    setIscheck(true);
-    // checkIdMutation.mutate(e.target.value);
+    checkEmailMutation.mutate(e.target.value);
+    };
+
+  const handleEmailChange = (e) => {
+    const value = e.target.value;
+    setUserEmail(value);
+    emailRegex.test(value) ? setIsValidEmail(true) : setIsValidEmail(false);
   };
 
+  //비밀번호 확인
   const handlePasswordChange = (e) => {
     const value = e.target.value;
     setUserpassword(value);
@@ -66,20 +64,17 @@ const SignupForm = () => {
       ? setIsValidPassword(true)
       : setIsValidPassword(false);
   };
-
-  //.이메일 정규표현식
-  const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-  const handleEmailChange = (e) => {
-    const value = e.target.value;
-    setUserEmail(value);
-    regex.test(value) ? setIsValidEmail(true) : setIsValidEmail(false);
-  };
-
-  const handleConfirmPasswordChange = (e) => {
-    const value = e.target.value;
-    setUservalpassword(value);
-    value === userpassword ? setPasswordMatch(true) : setPasswordMatch(false);
-  };
+  // 가입
+  const signUpMutation = useMutation(Signup, {
+    onSuccess: (response) => {
+      console.log(response.data);
+      return response.data;
+    },
+    onError: (response) => {
+      console.log(response.data);
+      return response.data;
+    }
+  });
 
   const signupSubmitHandler = (e) => {
     e.preventDefault();
@@ -88,29 +83,60 @@ const SignupForm = () => {
       password: userpassword,
       nickname: usernickname,
     };
-    // signUpMutation.mutate(res);
+    signUpMutation.mutate(res);
+    window.location.href = "/login";
   };
 
   return (
-    <>
+    
     <Whole>
-      <LoginContainer>
-        
-        <Title>회원가입</Title>
+      <LoginContainer onSubmit={signupSubmitHandler}>
+        <div>
+          <Title>회원가입</Title>
+          <Input 
+          type='text'
+          name='Email'
+          value={useremail}
+          placeholder='이메일 주소'
+          onChange={handleEmailChange}
+          />
+
+          <button
+            // id="check"
+            type ="button"
+            disabled={!isValidEmail}
+            value={useremail}
+            onClick={checkEmail}
+          >
+            중복확인
+          </button>
+
+        </div>
+
         <Input 
-        name='Email'
-        placeholder='이메일 주소'/>
-        <Input 
+        type='text'
+        value={usernickname}
         name='Username'
-        placeholder='이름'/>
-        <Input 
+        placeholder='이름'
+        onChange={(e) => setNickname(e.target.value)}/>
+        <Input
+        type='text'
+        value={userpassword} 
         name='PassWord'
-        placeholder='비밀번호'/>
+        placeholder='비밀번호'
+        onChange={handlePasswordChange}/>
+        {isValidPassword ? (
+          <p style={{ color: "White" }}>사용가능한 비밀번호 입니다.</p>
+        ) : (
+          <p style={{ color: "#ff6666" }} >영어,숫자,특수문자를 포함한 8자이상이여야 합니다.</p>
+        )}
+
         <CheckArea>
           <CheckBox 
           id="alertcheck"
-          type="checkbox" />
-          <label htmlFor='alertcheck'>예, 저는 개인정보 처리방침에 따른 개인정보 수집 및 활용에 동의합니다. (상세 정보)</label>
+          type="checkbox" 
+          />
+          <label htmlFor='alertcheck'>예, 저는 개인정보 처리방침에 따른 개인정보 수집 및 활용에 동의합니다. (필수 항목)</label>
         </CheckArea>
         <CheckArea>
           <CheckBox 
@@ -121,16 +147,14 @@ const SignupForm = () => {
         <Btn
           backColor="red"
           textColor="white"
-          // disabled={!check}
-          // onClick={handleBtn}
+          disabled={!(isValidEmail && isValidPassword)}          
         > 
           회원가입
         </Btn> 
         
       </LoginContainer>
     </Whole>
-    {/* <LoginFooter /> */}
-    </>
+    
   );
 
 };
@@ -154,7 +178,7 @@ const Whole = styled.div`
   background-size : cover;
 `;
 
-const LoginContainer = styled.div`
+const LoginContainer = styled.form`
   display: flex;
   flex-direction: column;
   position: relative;
@@ -200,7 +224,6 @@ const CheckBox = styled.input`
   margin : 5px;
   border: none;
   zoom : 1.5;
-  
 `;
 
 const CheckArea = styled.div`
@@ -217,6 +240,7 @@ const Input = styled.input`
   box-sizing: border-box;
   background-color: #4f4f4f;
   display: block;
+  color : white;
   font-size: 16px;
   height: 50px;
   padding: 10px 11px;
