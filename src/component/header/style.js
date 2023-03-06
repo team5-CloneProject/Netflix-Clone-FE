@@ -11,7 +11,7 @@ const HeaderWarp = styled.div`
   justify-content: space-between;
   align-items: center;
   box-sizing: border-box;
-  z-index: 999;
+  z-index: 9;
   transition: all 0.5s;
 `;
 
