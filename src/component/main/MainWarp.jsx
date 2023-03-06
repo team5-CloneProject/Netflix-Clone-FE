@@ -1,4 +1,4 @@
-import MainSliderwrap from "../slide/MainSliderwrap";
+import MainSliderwrap from "./slide/MainSliderwrap";
 import {
   MainMovieWrap,
   ArrowForward,

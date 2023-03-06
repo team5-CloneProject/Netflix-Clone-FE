@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   MainMovie,
   MovieInfo,
@@ -12,40 +12,73 @@ import {
   MovieImg,
   Movieplay,
   PlayButton,
+  Playopsion,
 } from "./MainMovie";
-
+import { HiOutlineVolumeOff, HiOutlineVolumeUp } from "react-icons/hi";
 import { MdReplay } from "react-icons/md";
+import MainModal from "./MainModal/MainModal"
 
 function Movie() {
-  //메인 사진 호버시 4초후 재생
-  const [isImgplay, setIsImgplay] = useState(false);
-  
+  const [isImgplay, setIsImgplay] = useState(false); //5초후 재생
+  const [timeoutId, setTimeoutId] = useState(null); // setTimeout 함수가 반환하는 id 값을 저장
   const mainImgHandler = () => {
-    setTimeout(() => {
-      setIsImgplay(true);
-    }, 4000);
+    const id = setTimeout(() => {
+      if (!infoOpen) {
+        setIsImgplay(true);
+      }
+    }, 1000);
+    setTimeoutId(id);
   };
   const playerRef = useRef(null);
+  const playVideo = () => { //다시시작
+    setIsImgplay(false);
+    playerRef.current.playVideo();
+  };
+  const [isMuted, setIsMuted] = useState(true); //볼륨조절
+  const toggleMute = () => {
+    setIsMuted(!isMuted);
+    playerRef.current.internalPlayer.setVolume(isMuted ? 0 : 50);
+  };
+  
   const videoOptions = {
     playerVars: {
-      autoplay: 1,
-      controls: 0,
-      rel: 0,
+      autoplay: 1, //자동재생
+      controls: 0, //관련영상표시 x
+      end: 90, //30초까지만 재생
+      rel: 0, //컨트롤 바에 로고 없앰
+      //mute: isMuted,
     },
   };
-  const playVideo = () => {
+
+
+  //모달 관련..........
+  const [infoOpen, setInfoOpen] = useState(false);
+  const infoBtn = () => {
+    setInfoOpen(true)
+    if (timeoutId) {
+      clearTimeout(timeoutId); //setTimeout 함수 취소
+    }
     setIsImgplay(false);
-    playerRef.current.internalPlayer.playVideo();
   };
+  const infoOutBtn=()=>{
+    setInfoOpen(false);
+  }
+  useEffect(() => {
+    if (infoOpen) {
+      document.body.style.overflow = "hidden";
+    }
+  }, [infoOpen]);
   return (
     <MainMovie onMouseEnter={mainImgHandler}>
       {isImgplay ? (
         <Movieplay
+          ref={playerRef} // playerRef 설정
           opts={videoOptions}
           onEnd={(e) => {
             e.target.stopVideo(0);
           }}
           videoId="Trd-cwwIVhM"
+          isMuted={isMuted}
         />
       ) : (
         <MovieImg>
@@ -55,10 +88,20 @@ function Movie() {
           />
         </MovieImg>
       )}
-      <PlayButton onClick={playVideo}>
-        <MdReplay />
-      </PlayButton>
-
+      <Playopsion>
+        {/* //다시시작 */}
+        <PlayButton onClick={playVideo}>
+          <MdReplay />
+        </PlayButton>
+        {/* //소리관련 */}
+        <PlayButton>
+          {isMuted ? (
+            <HiOutlineVolumeOff onClick={toggleMute} />
+          ) : (
+            <HiOutlineVolumeUp onClick={toggleMute} />
+          )}
+        </PlayButton>
+      </Playopsion>
       <MovieInfo>
         <MovieTitle>너에게 닿기를</MovieTitle>
         <MovieDesc>
@@ -71,14 +114,18 @@ function Movie() {
             <PlayIcon />
             <span>재생</span>
           </PlayBtn>
-          <PlayInfo>
+          <PlayInfo onClick={() => infoBtn()}>
             <InfoIcon />
             <span>상세 정보</span>
           </PlayInfo>
         </PlayBtnWarp>
       </MovieInfo>
+      {infoOpen && (
+        <MainModal setInfoOpen={setInfoOpen} infoOutBtn={infoOutBtn} />
+      )}
     </MainMovie>
   );
 }
+
 
 export default Movie

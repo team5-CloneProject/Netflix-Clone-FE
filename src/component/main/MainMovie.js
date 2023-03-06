@@ -14,7 +14,7 @@ export const MovieImg = styled.div`
   padding-bottom: 56.25%;
   width: 100%;
   height: 0;
-  top: -70px;
+  top: 0px;
   overflow: hidden;
   z-index: 1;
   transition: all 0.5s;
@@ -30,8 +30,8 @@ export const MovieImg = styled.div`
     max-width: 100%;
     max-height: 100%;
   }
-  &::after {
-    background: rgba(0, 0, 0, 0.5);
+  &::after{
+    background: rgba(0, 0, 0, 0.1);
     width:100%;
     height:100%;
     position: absolute;
@@ -101,6 +101,7 @@ export const PlayBtn = styled.button`
     background-color: rgba(255, 255, 255, 0.75);
   }
 `;
+
 export const PlayIcon = styled(FaPlay)`
   height: 1.5rem;
   width: 1.5rem;
@@ -143,12 +144,21 @@ export const PlayButton = styled.span`
     display: flex;
     align-items: center;
     justify-content: center;
-    bottom : 5%;
-    right : 60px;
-    z-index: 2;
-    position:absolute;
+    margin-left:20px;
     > svg{
       width:30px;
       height:30px;
     }
 `;
+export const Playopsion = styled.div`
+    bottom : 5%;
+    right : 60px;
+    z-index: 2;
+    position:absolute;
+    display:flex;
+    > svg{
+      width:30px;
+      height:30px;
+    }
+`;
+
