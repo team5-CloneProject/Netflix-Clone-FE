@@ -14,13 +14,13 @@ const Signup = () => {
     <div>
     <LoginHeader />
     <Whole>
-      {isSignupMode ? (
+      {/* {isSignupMode ? ( */}
         <SignupForm />
-      ):(
+      {/* ):(
         <Stdiv>
           <Btn onClick={SignUpMode}> 시작하기 </Btn>
         </Stdiv>
-      )}
+      )} */}
     </Whole>
     </div>
   )

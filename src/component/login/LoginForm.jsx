@@ -13,16 +13,19 @@ const LoginForm = () => {
   const navigate = useNavigate();
   const [email, setEmail]= useState('');
   const [password, setPassword]= useState('');
+  const queryClient = useQueryClient();
 
-  // const loginmutation = useMutation(Login, {
-  //   onSuccess : (response) => {
-  //     setCookie("access_token", response.headers.authorization);
-  //     navigate ("/");
-  //   },
-  //   onError : (response) => {
-  //     console.log("에러")
-  //   }
-  // });
+  const loginmutation = useMutation(Login, {
+    onSuccess : (response) => {
+      console.log(response)
+      setCookie("access_token", response.headers.authorization);
+      window.location.href = "/";
+      },
+    onError : (response) => {
+      // console.log(response)
+      console.log("로그인에러")
+    }
+  });
 
   const onLoginHandler = (event) => {
     event.preventDefault();
@@ -34,18 +37,15 @@ const LoginForm = () => {
       alert("빈칸을 빠짐없이 입력해주세요")
       return;
     }
-    // loginmutation.mutate(res);
+    loginmutation.mutate(res);
   }
 
   return (
     <>
-    <LoginHeader onSubmit={onLoginHandler}/>
-    <Whole>
+    <LoginHeader/>
+    <Whole onSubmit={onLoginHandler}>
       <LoginContainer>
         <Title>로그인</Title>
-        {/* {LoginDatas.map((LoginData, idx) => {
-          return <LoginInput key={idx} data={LoginData} />;
-        })} */}
         <Input 
         type = "text"
         value={email}
