@@ -19,7 +19,7 @@ const LoginForm = () => {
     onSuccess : (response) => {
       console.log(response)
       setCookie("access_token", response.headers.authorization);
-      window.location.href = "/";
+      window.location.href = "/main";
       },
     onError : (response) => {
       // console.log(response)

@@ -34,7 +34,7 @@ function Header() {
     const profileBtn = () => {
       setOpenProFile(!openProFile);
     };
-    console.log(openProFile);
+    //console.log(openProFile);
   return (
     <HeaderWarp ref={headerMove}>
       <Left>

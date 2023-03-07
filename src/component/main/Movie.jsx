@@ -9,7 +9,7 @@ import {
   PlayIcon,
   InfoIcon,
   PlayInfo,
-  MovieImg,
+  MainMovieImg,
   Movieplay,
   PlayButton,
   Playopsion,
@@ -83,12 +83,12 @@ function Movie() {
           isMuted={isMuted}
         />
       ) : (
-        <MovieImg>
+        <MainMovieImg>
           <img
             src="https://i1.ytimg.com/vi/Trd-cwwIVhM/maxresdefault.jpg"
             alt=""
           />
-        </MovieImg>
+        </MainMovieImg>
       )}
       <Playopsion>
         {/* //다시시작 */}

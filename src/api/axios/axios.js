@@ -20,7 +20,7 @@ instance.interceptors.request.use(
   (config) => {
     if (config.headers === undefined) return;
     const access_token = getCookie("access_token")
-    config.headers["Authorization"] = `Bearer ${access_token}`;
+    config.headers["Authorization"] = `${access_token}`;
     return config;
   },
   (error) => {
