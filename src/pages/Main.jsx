@@ -4,7 +4,7 @@ import MainWarp from "../component/main/MainWarp";
 import Footer from '../component/footer/Footer';
 const Page = () => {
   return (
-    <div>
+    <div style={{overflow:'hidden'}}>
       <Header />
       <MainWarp />
       <Footer/>

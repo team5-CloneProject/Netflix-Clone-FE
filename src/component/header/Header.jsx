@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Link } from "react-router-dom";
 import {
   HeaderWarp,
@@ -10,6 +10,7 @@ import {
   User,
   UserIcon,
   Arrow,
+  Profile,
 } from "./style";
 import { AiOutlineSearch } from "react-icons/ai";
 import usericon from "../../img/usericon.png";
@@ -29,8 +30,13 @@ function Header() {
         window.removeEventListener("scroll", headerScroll);
       }
     },[])
+    const [openProFile, setOpenProFile] =useState(false)
+    const profileBtn = () => {
+      setOpenProFile(!openProFile);
+    };
+    console.log(openProFile);
   return (
-    <HeaderWarp ref={headerMove} className="hasBillboard">
+    <HeaderWarp ref={headerMove}>
       <Left>
         <Link to="/" className="link">
           <Logo
@@ -52,14 +58,25 @@ function Header() {
           <AiOutlineSearch className="search" />
         </Rightlist>
         <Rightlist>
-          <User>
+          <User onClick={() => profileBtn()}>
             <UserIcon src={usericon} alt="" />
-            <Arrow></Arrow>
+            <Arrow className={openProFile ? "on" : "off"}></Arrow>
           </User>
+          {openProFile && (
+            <Profile openProFile={openProFile}>
+              <li>
+                <Link to="/mypage">프로필 수정</Link>
+              </li>
+              <li>
+                <Link to="/login">로그아웃</Link>
+              </li>
+            </Profile>
+          )}
         </Rightlist>
       </Left>
     </HeaderWarp>
   );
 }
+
 
 export default Header

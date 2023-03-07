@@ -58,7 +58,7 @@ export const Movieplay = styled(YouTube)`
 export const MovieInfo = styled.div`
   position: absolute;
   width: 36%;
-  z-index: 10;
+  z-index:3;
   left: 60px;
   bottom: 5%;
   word-break: keep-all;

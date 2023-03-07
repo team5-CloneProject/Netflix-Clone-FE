@@ -26,7 +26,7 @@ function Movie() {
       if (!infoOpen) {
         setIsImgplay(true);
       }
-    }, 1000);
+    }, 3000);
     setTimeoutId(id);
   };
   const playerRef = useRef(null);
@@ -66,6 +66,8 @@ function Movie() {
   useEffect(() => {
     if (infoOpen) {
       document.body.style.overflow = "hidden";
+    }else{
+      document.body.style.overflow = "";
     }
   }, [infoOpen]);
   return (

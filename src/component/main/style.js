@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 export const MainMovieWrap = styled.div`
   background:#000;
-  overflow: hidden;
+  /* overflow: hidden; */
   padding-bottom: 80px;
 `;
 
