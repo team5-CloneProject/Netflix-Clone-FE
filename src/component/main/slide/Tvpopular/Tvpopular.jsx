@@ -27,7 +27,7 @@ function Tvpopular() {
   if (isError) {
     return <h1>"오류입니다!"</h1>;
   }
-  // console.log(data);
+  console.log(data);
   //슬릭 설정
   const settings = {
     dots: false,
@@ -62,7 +62,7 @@ function Tvpopular() {
           return (
             <Slide key={item.id}>
               <div>
-                <Slidemovie to="/">
+                <Slidemovie>
                   <SlideImg src={item.poster_path} alt={item.title} />
                 </Slidemovie>
               </div>

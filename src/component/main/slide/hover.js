@@ -4,7 +4,7 @@ import { AiOutlinePlus, AiOutlineLike, AiOutlineDislike,AiOutlineInfo,AiTwotoneL
 
 import { MdKeyboardArrowDown} from "react-icons/md";
 export const Slidehoverbox = styled.div`
-    z-index: 999;
+    z-index: 9;
     position: absolute;
     top: -20px;
     left:0;

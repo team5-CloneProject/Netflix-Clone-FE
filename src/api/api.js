@@ -2,11 +2,11 @@ import { baseURL,instance } from "./axios/axios";
 
 //슬라이드에 들어갈 녀석들....
 export const MovieApi={
-    popularGet:(page)=>baseURL.get(`/api/movie/popular?page=${page}`),//영화 인기순
-    nowplayingGet:(page)=>baseURL.get(`/api/movie/nowplaying?page=${page}`),//지금 상영되는순
-    tvpopularGet:(page)=>baseURL.get(`/api/movie/tvpopular?page=${page}`),//티비 인기순
-    topratedGet:(page)=>baseURL.get(`/api/movie/toprated?page=${page}`),//영화 평점순
-    searchGet:(page,search)=>baseURL.get(`/api/movie/search?page=${page}&query=${search}`),//영화 검색순
+    popularGet:(page)=>instance.get(`/api/movie/popular?page=${page}`),//영화 인기순
+    nowplayingGet:(page)=>instance.get(`/api/movie/nowplaying?page=${page}`),//지금 상영되는순
+    tvpopularGet:(page)=>instance.get(`/api/movie/tvpopular?page=${page}`),//티비 인기순
+    topratedGet:(page)=>instance.get(`/api/movie/toprated?page=${page}`),//영화 평점순
+    searchGet:(page,search)=>instance.get(`/api/movie/search?page=${page}&query=${search}`),//영화 검색순
 }
 export const MovieGood={
     Movielike:(likeBtn)=>instance.post(`/api/movie/like/${likeBtn.id}`,likeBtn),//좋아요 

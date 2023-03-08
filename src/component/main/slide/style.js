@@ -20,7 +20,7 @@ export const Title = styled.em`
   display: block;
   line-height: 1;
   margin-right: 20px;
-  font-size: 1.56rem;
+  font-size: 1.75rem;
   font-style: normal;
   font-weight: 500;
 `;
