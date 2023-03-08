@@ -83,7 +83,7 @@ const SignupForm = () => {
       nickname: usernickname,
     };
     signUpMutation.mutate(res);
-    // window.location.href = "/login";
+    window.location.href = "/login";
   };
 
   return (

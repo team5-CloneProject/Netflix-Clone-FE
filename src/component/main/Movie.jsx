@@ -9,7 +9,7 @@ import {
   PlayIcon,
   InfoIcon,
   PlayInfo,
-  MovieImg,
+  MainMovieImg,
   Movieplay,
   PlayButton,
   Playopsion,
@@ -26,7 +26,7 @@ function Movie() {
       if (!infoOpen) {
         setIsImgplay(true);
       }
-    }, 3000);
+    }, 3000000);
     setTimeoutId(id);
   };
   const playerRef = useRef(null);
@@ -37,7 +37,7 @@ function Movie() {
   const [isMuted, setIsMuted] = useState(true); //볼륨조절
   const toggleMute = () => {
     setIsMuted(!isMuted);
-    playerRef.current.internalPlayer.setVolume(isMuted ? 0 : 50);
+    playerRef.current.internalPlayer.setVolume(isMuted ? 0 : 100);
   };
   
   const videoOptions = {
@@ -83,12 +83,12 @@ function Movie() {
           isMuted={isMuted}
         />
       ) : (
-        <MovieImg>
+        <MainMovieImg>
           <img
             src="https://i1.ytimg.com/vi/Trd-cwwIVhM/maxresdefault.jpg"
             alt=""
           />
-        </MovieImg>
+        </MainMovieImg>
       )}
       <Playopsion>
         {/* //다시시작 */}

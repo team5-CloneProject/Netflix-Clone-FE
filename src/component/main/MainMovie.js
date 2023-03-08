@@ -19,8 +19,8 @@ export const MovieImg = styled.div`
   z-index: 1;
   transition: all 0.5s;
   > img {
-    width: 100%;
-    height: 100%;
+    width: auto;
+    height: auto;
     position: absolute;
     top: 0;
     bottom: 0;
@@ -39,7 +39,24 @@ export const MovieImg = styled.div`
     top:0;
     content:'';
   }
+  &::before{
+    background: linear-gradient(0deg,#181818,transparent 50%);
+    width:100%;
+    bottom:0;
+    left:0;
+    position:absolute;
+    height:500px;
+    content: '';
+    z-index: 99;
+  }
 `;
+export const MainMovieImg = styled(MovieImg)`
+  > img {
+    width: 100%;
+    height: 100%;
+  }
+`
+
 export const Movieplay = styled(YouTube)`
   position: absolute;
   padding-bottom: 56.25%;

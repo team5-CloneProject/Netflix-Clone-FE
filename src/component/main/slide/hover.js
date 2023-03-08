@@ -1,21 +1,25 @@
 import { FaPlay } from "react-icons/fa";
-import { AiOutlinePlus, AiOutlineLike, AiOutlineDislike,AiOutlineInfo } from "react-icons/ai";
-import { MdKeyboardArrowDown} from "react-icons/md";
+import styled from 'styled-components';
+import { AiOutlinePlus, AiOutlineLike, AiOutlineDislike,AiOutlineInfo,AiTwotoneLike, AiTwotoneDislike,AiOutlineCheck } from "react-icons/ai";
 
-import styled from "styled-components";
+import { MdKeyboardArrowDown} from "react-icons/md";
 export const Slidehoverbox = styled.div`
-  z-index: 999;
-  position: absolute;
-  right: -30px;
-  margin: auto;
-  top: -130px;
-  background: #181818;
-  word-break: break-all;
-  box-shadow: rgb(24 24 24 / 50%) 0px 0px 15px 5px;
+    z-index: 9;
+    position: absolute;
+    top: -20px;
+    left:0;
+    right:0;
+    overflow: hidden;
+    border-radius: 5px;
+    margin: 0 auto;
+    box-sizing: border-box;
+    background: rgb(24, 24, 24);
+    word-break: break-all;
+    box-shadow: rgb(24 24 24 / 50%) 0px 0px 15px 5px;
 `;
 export const Slideinfo = styled.div`
   width:100%;
-  padding:25px;
+  padding:30px 30px 40px;
   box-sizing: border-box;
 `;
 export const InfoTop = styled.div`
@@ -40,7 +44,7 @@ export const InfoIcon = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  border:2px solid #fff;
+  border:1px solid #fff;
   border-radius: 40px;
   margin-left:10px;
   cursor: pointer;
@@ -48,6 +52,11 @@ export const InfoIcon = styled.button`
   
 `;
 export const OutlinePlus = styled(AiOutlinePlus)`
+  width: 18px;
+  height: 18px;
+  fill: #fff;
+`;
+export const OutlineCheck = styled(AiOutlineCheck)`
   width: 18px;
   height: 18px;
   fill: #fff;
@@ -62,13 +71,23 @@ export const OutlineDislike = styled(AiOutlineDislike)`
   height: 18px;
   fill: #fff;
 `;
-export const boardArrowDown = styled(MdKeyboardArrowDown)`
+export const TwotoneLike = styled(AiTwotoneLike)`
+  width: 18px;
+  height: 18px;
+  fill: #fff;
+`;
+export const TwotoneDislike = styled(AiTwotoneDislike)`
   width: 18px;
   height: 18px;
   fill: #fff;
 `;
 
 
+export const boardArrowDown = styled(MdKeyboardArrowDown)`
+  width: 18px;
+  height: 18px;
+  fill: #fff;
+`;
 export const InfoPlay = styled(FaPlay)`
   width: 15px;
   height: 15px;
