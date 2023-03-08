@@ -1,5 +1,4 @@
-import { Cookies } from "react-cookie";
-import { instance, baseURL } from "../axios/axios";
+import { baseURL, instance } from "../axios/axios";
 
 export const Login = async (payload) => {
   try {
