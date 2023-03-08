@@ -6,24 +6,21 @@ import LoginFooter from './LoginFooter';
 import { useMutation, useQueryClient } from 'react-query';
 import { Login } from '../../api/user/user';
 import { setCookie } from '../../api/axios/cookies';
-import { Cookies } from "react-cookie";
-
 
 const LoginForm = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [email, setEmail]= useState('');
   const [password, setPassword]= useState('');
-  const queryClient = useQueryClient();
+  // const queryClient = useQueryClient();
 
   const loginmutation = useMutation(Login, {
     onSuccess : (response) => {
-      console.log(response)
+      // console.log(response)
       setCookie("access_token", response.headers.authorization);
       window.location.href = "/";
       },
     onError : (response) => {
-      // console.log(response)
-      console.log("로그인에러")
+      alert("아이디 및 비밀번호를 확인해주세요!")
     }
   });
 
@@ -34,7 +31,7 @@ const LoginForm = () => {
       password
     };
     if(!email.trim() || !password.trim()){
-      alert("빈칸을 빠짐없이 입력해주세요")
+      alert("아이디 및 비밀번호를 확인해주세요!")
       return;
     }
     loginmutation.mutate(res);
@@ -79,6 +76,7 @@ const LoginForm = () => {
             </White> 
           </p>
           <p>이 페이지는 아주 멋지게 만들었습니다. 한번 들어와서 구경해보시기 바랍니다.</p>
+          <p>구경해본다면 후회하지 않으실꺼에요!</p>
         </Footer>
       </LoginContainer>
       <LoginFooter />
@@ -138,14 +136,15 @@ const Btn = styled.button`
   background-color: ${props => props.backColor};
   font-size: large;
   padding: ${props => props.padding};
-  :focus {
+  :hover{
     cursor: pointer;
+    background-color : rgb(187, 39, 26);
   }
 `;
 
 const Help = styled.div`
   height: 20px;
-  margin: 10px 0;
+  margin-top: 15px;
   color: #939393;
   text-decoration: none;
   text-align: left;

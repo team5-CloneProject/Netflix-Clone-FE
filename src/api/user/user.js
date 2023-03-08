@@ -1,9 +1,8 @@
-import { Cookies } from "react-cookie";
-import { instance, baseURL } from "../axios/axios";
+import { baseURL, instance } from "../axios/axios";
 
 export const Login = async (payload) => {
   try {
-    const response = await baseURL.post("/api/member/login", {
+    const response = await instance.post("/api/member/login", {
       email: payload.email,
       password: payload.password,
     });
