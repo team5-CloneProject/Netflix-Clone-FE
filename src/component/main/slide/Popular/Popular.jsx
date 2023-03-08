@@ -65,7 +65,7 @@ function Popular() {
           return (
             <Slide key={item.id}>
               <div>
-                <Slidemovie to="/">
+                <Slidemovie >
                   <SlideImg src={item.poster_path} alt={item.title} />
                 </Slidemovie>
               </div>

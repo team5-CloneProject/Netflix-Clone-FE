@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import { Link } from 'react-router-dom';
 const Footerwrap = styled.div`
   background: #000;
-  padding: 0px 0 15px;;
+  padding: 80px 0 15px;;
   
 `;
 const FooterInner = styled.div`
