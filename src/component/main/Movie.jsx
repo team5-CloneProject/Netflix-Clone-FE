@@ -26,7 +26,7 @@ function Movie() {
       if (!infoOpen) {
         setIsImgplay(true);
       }
-    }, 3000000);
+    }, 5000);
     setTimeoutId(id);
   };
   const playerRef = useRef(null);

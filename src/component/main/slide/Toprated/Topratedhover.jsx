@@ -35,7 +35,7 @@ function Topratedhover({ item }) {
       console.log("실패하셨습니다.");
     },
   });
-   const [like, setLike] = useState("LIKE");
+   const [like, setLike] = useState(false);
   const likeHander = (id) => {
     const likeBtn = {
       id: id,
@@ -55,7 +55,7 @@ function Topratedhover({ item }) {
       console.log("실패하셨습니다.");
     },
   }); 
-  const [disLike, setDisLike] = useState("DISLIKE");
+  const [disLike, setDisLike] = useState(false);
   const disLikeHander = (id) => {
     const disLikeBtn = {
       id: id,
@@ -76,7 +76,7 @@ function Topratedhover({ item }) {
       console.log("실패하셨습니다.");
     },
   }); 
-  const [wishAdd, setWishAdd] = useState(item.id);
+  const [wishAdd, setWishAdd] = useState(false);
   const WishAddHander = (id) => {
     const WishAddBtn = {
       id: id,

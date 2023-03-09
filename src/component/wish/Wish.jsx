@@ -14,7 +14,7 @@ function Wish() {
   if (isError) {
     return <h1>"오류입니다!"</h1>;
   }
-  //console.log(data);
+  console.log(data);
   return (
     <WishWrap>
       <Title>내가찜한콘텐츠</Title>
