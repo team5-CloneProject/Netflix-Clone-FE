@@ -1,52 +1,97 @@
-import React,{ useState } from 'react'
+import React,{ useEffect, useState } from 'react'
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import styled from "styled-components"
 import { Arrow } from '../header/style';
+import { MypageEdit, MypageGet } from '../../api/user/mypage';
+import { useNavigate, useParams } from 'react-router-dom';
+import { instance } from '../../api/axios/axios';
 
 function Profile() {
-  //미리보기를 구현하기위한 스테이트
-  const [imgBaseChange, setImgBaseChange] = useState([]);
-  //이미지파일을 받는 스테이트
-  const [imgFile, setImgFile] = useState([]);
-  const imgHandlerChange = (event) => {
-    //console.log(event.target.files);
-    //파일을 받아오는 이벤트
-    //setImgFile(event.target.files);
-    setImgBaseChange([]);
-    for (let i = 0; i < event.target.files.length; i++) {
-      if (event.target.files[i]) {
-        //파일을 버퍼에 저장시켜줌
-        //정확히는 해당 파일 리더를 통해서 파일 정보를 읽는다
-        let reader = new FileReader();
-        //파일 정보를 입력한다.!
-        reader.readAsDataURL(event.target.files[i]);
-        //파일 상태 업데이트
-        reader.onloadend = () => {
-          //파일 읽기가 완료되면 아래코드가 실행된다.
-          //reader.result는 파일을 비트맵 데이터를 리턴시켜준다.
-          const base = reader.result;
-          //console.log(base)
-          if (base) {
-            //비트맵 데이터를 저장 가능하도록 스트링으로 바꾼다.
-            const baseSub = base.toString();
-            //imgBase에 baseSub를 붙인 새로운 배열을 스테이트 한다.
-            setImgBaseChange((imgBaseChange) => [...imgBaseChange, baseSub]);
-          }
-        };
+  const [nickname, setNickName] = useState("");
+  const [images, setImages] = useState("");
+  const [updateimg, setUpdateImg] = useState("");
+  const fileInput = React.useRef(null);
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+
+  const {isError, isLoading, data} = useQuery("MypageGet", MypageGet);
+  console.log(data)
+
+  // 전체 조회
+  // useEffect(() => {
+  //   const MypageGet = async () => {
+  //     const { data } = await instance.get("/api/mypage");
+  //     console.log(data.response);
+  //     return data.response;
+  //     };
+  //     MypageGet().then((result) => setList(result));
+  // },[nickname]);
+
+
+  const Edit_Mutation = useMutation(MypageEdit, {
+    onSuccess: (response) => {
+      queryClient.invalidateQueries("MypageGet");
+    },
+  });
+
+  const onImgChangeHandler = (event) => {
+    event.preventDefault();
+
+    setUpdateImg([]);
+    setImages(event.target.files[0]);
+
+    let reader = new FileReader();
+    reader.readAsDataURL(event.target.files[0]);
+    reader.onloadend = () => {
+      const base = reader.result;
+      if (base) {
+        const baseSub = base.toString();
+        setUpdateImg((updateimg) => [...updateimg, baseSub]);
       }
+    };
+    // setUpdateImg(updateimg);
+    // setNickName(nickname);
+  }
+
+  const onSubmitHandler = async (event) => {
+    event.preventDefault();
+
+    const formData = new FormData();
+    formData.append("nickname", nickname);
+    formData.append("images", images);
+    const payload = {
+      nickname : formData.get("nickname"),
+      images : formData.get("images")
     }
-  };
+    console.log(payload)
+    Edit_Mutation.mutate(payload);
+    setImages(payload);
+    setUpdateImg(payload);
+
+    alert("수정 완료")
+    // navigate("/")
+  }
+
+  const onCancleHandler = async (event) => {
+    event.preventDefault();
+    navigate("/")
+  }
+  
 
   return (
     <ProflieWrap>
-      <ProflieInner>
+      <ProflieInner onSubmit={onSubmitHandler} encType="multipart/form-data">
         <Title>프로필 변경</Title>
         <Content>
           <Left>
-            <img src="" alt="" />
+            <IMG src={images} alt="image" />
             <InputProfile
               type="file"
               id="imagebox"
-              accept="image/png,image/jpg,image/jpeg"
+              accept="image/*"
+              ref={fileInput}
+              src={updateimg}
+              onChange={onImgChangeHandler}
             />
             <LabelProfile htmlFor="imagebox">
               <svg
@@ -55,11 +100,11 @@ function Profile() {
                 viewBox="0 0 24 24"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
-                class="svg-icon svg-icon-edit"
+                className="svg-icon svg-icon-edit"
               >
                 <path
-                  fill-rule="evenodd"
-                  clip-rule="evenodd"
+                  fillRule="evenodd"
+                  clipRule="evenodd"
                   d="M22.2071 7.79285L15.2071 0.792847L13.7929 2.20706L20.7929 9.20706L22.2071 7.79285ZM13.2071 3.79285C12.8166 3.40232 12.1834 3.40232 11.7929 3.79285L2.29289 13.2928C2.10536 13.4804 2 13.7347 2 14V20C2 20.5522 2.44772 21 3 21H9C9.26522 21 9.51957 20.8946 9.70711 20.7071L19.2071 11.2071C19.5976 10.8165 19.5976 10.1834 19.2071 9.79285L13.2071 3.79285ZM17.0858 10.5L8.58579 19H4V14.4142L12.5 5.91417L17.0858 10.5Z"
                   fill="currentColor"
                 ></path>
@@ -67,45 +112,113 @@ function Profile() {
             </LabelProfile>
           </Left>
           <Right>
-            <Input type="text" />
+            <Input 
+            type="text" 
+            name="nickname"
+            value={nickname}
+            onChange={(event) => {
+              setNickName(event.target.value);
+            }}/>
+            <SmallContent>
             <Emtitle>언어</Emtitle>
             <SelectBoxWrap>
               <SelectBox>
-                <option value="한국어">한국어</option>
+              <option value="lang"> 언어 </option>
+              <option value="lang"> 한국어</option>
+              <option value="lang"> 한글</option>
               </SelectBox>
               <ArrowSelect />
             </SelectBoxWrap>
-            <Emtitle>게임닉네임 : </Emtitle>
-            <Profiletxt>
-              닉네임은 모든 넷플릭스 게임에서 다른 넷플릭스 회원들과 같이
-              플레이할 때 사용되는 고유의 이름입니다.
-            </Profiletxt>
-            <NickName>
-              <Input type="text" maxLength="16" />
-              <label>0/16</label>
-            </NickName>
+
+            </SmallContent>
+            <Emtitle>관람등급 설정:</Emtitle>
+            <SelectBoxWrap>
+              <SelectBox>
+                <option value="grade" >관람등급</option>
+                <option value="grade" >전연령</option>
+                <option value="grade" >키즈</option>
+              </SelectBox>
+              <ArrowSelect />
+            </SelectBoxWrap>
+            <CheckArea>
+          <CheckBox 
+          id="autoplay"
+          type="checkbox" 
+          />
+          <label htmlFor='autoplay'>모든 디바이스에서 시리즈의 다음 화 자동 재생</label> <p />
+        <CheckBox 
+          id="autoplay"
+          type="checkbox" 
+          />
+          <label htmlFor='autoplay'>모든 디바이스에서 탐색 중 미리보기 자동 재생</label>
+        </CheckArea>
           </Right>
+          
         </Content>
+        <SaveBtn> 저장 </SaveBtn>
+        <CancleBtn onClick={onCancleHandler}> 취소 </CancleBtn>
+
       </ProflieInner>
     </ProflieWrap>
   );
 }
+
+export default Profile
+const IMG = styled.img`  
+  width: 80px;
+  height: 80px;
+  border-radius : 5px;
+`
+const SaveBtn = styled.button`  
+  width: 6rem;
+  height: 3rem;
+  font-size : 20px;
+  margin : 10px;
+  color: black;
+  border : 1px solid;
+  background-color: white;
+  :hover{
+  background-color : rgb(187, 39, 26);
+  border-color : rgb(187, 39, 26);
+  color: white;
+  }
+`
+
+const CancleBtn = styled.button`  
+  width: 6rem;
+  height: 3rem;
+  font-size : 20px;
+  margin : 10px;
+  color: rgb(127, 127, 127);
+  border-color :rgb(127, 127, 127);
+  border : 1px solid;
+  background-color : rgba(255, 255, 255, 0);
+  :hover{
+  border-color : white;
+  color: white;
+  }
+`
 const ProflieWrap = styled.div`
-  background:#000;
-  width:100vw;
+  background:rgb(20, 20, 20);
+  width:100%;
   min-height: 100vh;
   padding:70px 0;
   box-sizing: border-box;
 `
-const ProflieInner = styled.div`
-  width:682px;
+const ProflieInner = styled.form`
+  width : 60%;
+  height : 80%;
   margin:0 auto;
 `;
-const Title = styled.h3`
-  font-size: 4.6rem;
+
+const Title = styled.div`
+  /* font-size: 4.6rem; */
+  font-size : 100%;
+  width : 300px;
   margin: 0.67em 0;
   line-height: 1;
 `;
+
 const Content = styled.div`
   border-bottom: 1px solid #333;
   border-top: 1px solid #333;
@@ -113,6 +226,15 @@ const Content = styled.div`
   padding: 2em 0;
   justify-content: space-between;
 `;
+
+const SmallContent = styled.div`
+  border-bottom: 1px solid #333;
+  border-top: 1px solid #333;
+  /* display: flex; */
+  padding: 2em 0;
+  /* justify-content: space-between; */
+`;
+
 const Left = styled.div`
   width: 150px;
   height: 150px;
@@ -120,11 +242,14 @@ const Left = styled.div`
   background: #333;
   font-size: 0;
   border-radius: 5px;
+  object-fit: cover;
 `;
+
 const InputProfile = styled.input`
   opacity:0;
   width:0;
 `;
+
 const LabelProfile = styled.label`
   position: absolute;
   width: 28px;
@@ -136,9 +261,11 @@ const LabelProfile = styled.label`
   justify-content: center;
   cursor: pointer;
 `;
+
 const Right = styled.div`
   width:calc(100% - 180px)
 `;
+
 const Input = styled.input`
   width: 100%;
   background: #666;
@@ -159,9 +286,11 @@ const Emtitle = styled.em`
   display: block;
   margin-top: 2rem;
 `;
+
 const SelectBoxWrap = styled.div`
 position:relative;
 `;
+
 const ArrowSelect = styled(Arrow)`
   left: 100px;
   top: 0;
@@ -169,6 +298,7 @@ const ArrowSelect = styled(Arrow)`
   bottom: 0;
   margin: auto;
 `;
+
 const SelectBox = styled.select`
   appearance: none;
   background-color: #000;
@@ -186,15 +316,17 @@ const SelectBox = styled.select`
   padding-right: 50px;
   position: relative;
 `;
-const Profiletxt = styled.p`
-  font-size: 1.25rem
+
+const CheckBox = styled.input.attrs({type:"checkbox"})`
+  margin: 5px;
+  padding: initial;
+  margin : 5px;
+  border-radius: 50px;
+  zoom : 1.5;
 `;
 
-const NickName = styled.div`
-  display: flex;
-  justify-content:space-between;
-  border-bottom: 1px solid #333;
-  flex-wrap:wrap;
+const CheckArea = styled.div`
+  align-items : center;
+  padding-top : 10px;
+  display : block;
 `;
-
-export default Profile

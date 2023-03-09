@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import LoginHeader from '../login/LoginHeader'
 import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
 import { type } from '@testing-library/user-event/dist/type';
@@ -84,7 +83,7 @@ const SignupForm = () => {
       nickname: usernickname,
     };
     signUpMutation.mutate(res);
-    window.location.href = "/";
+    window.location.href = "/login";
   };
 
   return (
@@ -93,7 +92,8 @@ const SignupForm = () => {
       <LoginContainer onSubmit={signupSubmitHandler}>
         <div>
           <Title>회원가입</Title>
-          <Input 
+          <Emaildiv>
+          <EmailInput 
           type='text'
           name='Email'
           value={useremail}
@@ -101,7 +101,7 @@ const SignupForm = () => {
           onChange={handleEmailChange}
           />
 
-          <button
+          <CheckBtn
             // id="check"
             type ="button"
             disabled={!isValidEmail}
@@ -109,8 +109,8 @@ const SignupForm = () => {
             onClick={checkEmail}
           >
             중복확인
-          </button>
-
+          </CheckBtn>
+          </Emaildiv>
         </div>
 
         <Input 
@@ -184,7 +184,7 @@ const LoginContainer = styled.form`
   position: relative;
   margin-top : 60px;
   width : 300px;
-  height : 50vh;
+  height : 55vh;
   padding: 70px;
   background-color: rgba(0, 0, 0, 0.8);
 `;
@@ -200,8 +200,9 @@ const Title = styled.div`
 `;
 
 const Btn = styled.button`
+  font-weight : 700;
   width: 100%;
-  height: 50px;
+  height: 10%;
   margin-top: 30px;
   margin-bottom: ${props => props.marginBottom};
   border-radius: 5px;
@@ -210,8 +211,26 @@ const Btn = styled.button`
   background-color: ${props => props.backColor};
   font-size: large;
   padding: ${props => props.padding};
-  :focus {
+  :hover{
     cursor: pointer;
+    background-color : rgb(187, 39, 26);
+  }
+`;
+
+const CheckBtn = styled.button`
+  font-weight : 600;
+  width: 20%;
+  height: 50px;
+  margin-left: 2px;
+  padding : 2px;
+  border-radius: 5px;
+  border: none;
+  color: white;
+  background-color: rgb(234, 51, 35);
+  font-size: 15px;
+  cursor: pointer;
+  :hover{
+    background-color : rgb(187, 39, 26);
   }
 `;
 
@@ -251,4 +270,26 @@ const Input = styled.input`
     outline-color : orange;
   }
 `
+const Emaildiv = styled.div`
+  display:flex;
+  justify-content : space-between;
+`
 
+const EmailInput = styled.input`
+  appearance: none;
+  border: 1px solid #4f4f4f;
+  border-radius: 5px;
+  box-sizing: border-box;
+  background-color: #4f4f4f;
+  display: block;
+  color : white;
+  font-size: 16px;
+  height: 50px;
+  padding: 10px 11px;
+  width: 80%;
+  /* padding: 1px 2px; */
+  margin-bottom: 16px;
+  :focus{
+    outline-color : orange;
+  }
+`

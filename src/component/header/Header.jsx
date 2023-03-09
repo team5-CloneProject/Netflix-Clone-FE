@@ -1,40 +1,49 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Link, useNavigate } from "react-router-dom";
-import {
-  HeaderWarp,
-  Left,
-  Logo,
-  MenuLink,
-  SearchInput,
-  Rightlist,
-  User,
-  UserIcon,
-  Arrow,
-  Profile,
-} from "./style";
+import { Link } from "react-router-dom";
+import { HeaderWarp, Left, Logo, MenuLink, SearchInput,Rightlist, User, UserIcon, Arrow, Profile,} from "./style";
 import { AiOutlineSearch } from "react-icons/ai";
 import usericon from "../../img/usericon.png";
+import { useMutation } from 'react-query';
+import { removeCookie } from '../../api/axios/cookies';
+import { Login } from '../../api/user/user';
+
 function Header() {
-    const headerMove = useRef(null)
-    function headerScroll(){
-      const navCurrent = headerMove.current;
-      if(window.scrollY !==0){
-        navCurrent.style = `background:#000`;
-      }else{
-        navCurrent.removeAttribute("style");
-      }
+  const logoutmutation = useMutation(Login, {
+    onSuccess : (response) => {
+      removeCookie("access_token");
+      alert ("로그아웃되었습니다.");
+      window.location.href = "/login";
+
+      },
+  });
+
+  const onLoginHandler = (event) => {
+    event.preventDefault();
+    logoutmutation.mutate();
+  }
+
+  const headerMove = useRef(null)
+  function headerScroll(){
+    const navCurrent = headerMove.current;
+    if(window.scrollY !==0){
+      navCurrent.style = `background:#000`;
+    }else{
+      navCurrent.removeAttribute("style");
     }
-    useEffect(()=>{
-      window.addEventListener("scroll", headerScroll);
-      return ()=>{
-        window.removeEventListener("scroll", headerScroll);
-      }
-    },[])
-    const [openProFile, setOpenProFile] =useState(false)
-    const profileBtn = () => {
-      setOpenProFile(!openProFile);
-    };
-    //console.log(openProFile);
+  }
+
+  useEffect(()=>{
+    window.addEventListener("scroll", headerScroll);
+    return ()=>{
+      window.removeEventListener("scroll", headerScroll);
+    }
+  },[])
+  const [openProFile, setOpenProFile] =useState(false)
+  const profileBtn = () => {
+    setOpenProFile(!openProFile);
+  };
+  // console.log(openProFile);
+
   return (
     <HeaderWarp ref={headerMove}>
       <Left>
@@ -69,7 +78,7 @@ function Header() {
                 <Link to="/mypage">프로필 수정</Link>
               </li>
               <li>
-                <Link to="/login">로그아웃</Link>
+                <Link onClick={onLoginHandler}>로그아웃</Link>
               </li>
             </Profile>
           )}
