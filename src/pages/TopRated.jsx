@@ -1,16 +1,16 @@
 import React from "react";
-import Lang from "../component/Langcate/Lang";
+import TopRated from "../component/Tab/TopRated";
 import Header from "../component/header/Header";
 import Footer from "../component/footer/Footer";
 import { MainMovieWrap } from "../component/main/style";
-const Language = () => {
+const TopRatepage = () => {
   return (
     <MainMovieWrap>
       <Header />
-      <Lang />
+      <TopRated />
       <Footer />
     </MainMovieWrap>
   );
 };
 
-export default Language;
+export default TopRatepage;

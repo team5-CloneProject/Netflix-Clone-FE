@@ -16,7 +16,7 @@ function Header() {
       setDetail(response);
     }
   });
-  console.log(data)
+  // console.log(data)
   const logoutmutation = useMutation(Login, {
     onSuccess : (response) => {
       removeCookie("access_token");
@@ -69,7 +69,8 @@ function Header() {
         </Link>
         <MenuLink to={"/main"}>홈</MenuLink>
         <MenuLink to={"/mywish"}>내가 찜한 콘텐츠</MenuLink>
-        <MenuLink to={"/Language"}>언어별로 찾아보기</MenuLink>
+        <MenuLink to={"/toprate"}>평점높은 영화</MenuLink>
+        <MenuLink to={"/nowplaying"}>지금 상영중인 영화</MenuLink>
       </Left>
       <Left>
         <Rightlist>
