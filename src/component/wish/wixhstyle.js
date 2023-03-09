@@ -10,13 +10,13 @@ export const WishConWrap = styled.ul`
 `;
 export const WishConli = styled.li`
   width: 16.38%;
-  margin-right: 20px;
-  margin-top: 20px;
+  margin-right: 5px;
+  margin-top: 5px;
   &:nth-child(6n) {
-    margin-right: 20;
+    margin-right: 0;
   }
   &:nth-child(-n + 6) {
-    margin-top: 20;
+    margin-top: 0;
   }
   position: relative;
   .slidehover {
