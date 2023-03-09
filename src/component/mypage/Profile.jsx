@@ -7,29 +7,24 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { instance } from '../../api/axios/axios';
 
 function Profile() {
-  const [nickname, setNickName] = useState("");
+  const [upnickname, setUPNickName] = useState("");
   const [images, setImages] = useState("");
   const [updateimg, setUpdateImg] = useState("");
+  const [detail, setDetail] = useState("");
+
   const fileInput = React.useRef(null);
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
-  const {isError, isLoading, data} = useQuery("MypageGet", MypageGet);
-  console.log(data)
-
-  // 전체 조회
-  // useEffect(() => {
-  //   const MypageGet = async () => {
-  //     const { data } = await instance.get("/api/mypage");
-  //     console.log(data.response);
-  //     return data.response;
-  //     };
-  //     MypageGet().then((result) => setList(result));
-  // },[nickname]);
-
+  const { data } = useQuery("MypageGet", MypageGet, {
+    onSuccess : (response) => {
+      setDetail(response);
+    }
+  });
+  // console.log(detail)
 
   const Edit_Mutation = useMutation(MypageEdit, {
-    onSuccess: (response) => {
+    onSuccess: () => {
       queryClient.invalidateQueries("MypageGet");
     },
   });
@@ -49,15 +44,13 @@ function Profile() {
         setUpdateImg((updateimg) => [...updateimg, baseSub]);
       }
     };
-    // setUpdateImg(updateimg);
-    // setNickName(nickname);
   }
 
   const onSubmitHandler = async (event) => {
     event.preventDefault();
 
     const formData = new FormData();
-    formData.append("nickname", nickname);
+    formData.append("nickname", upnickname);
     formData.append("images", images);
     const payload = {
       nickname : formData.get("nickname"),
@@ -65,16 +58,16 @@ function Profile() {
     }
     console.log(payload)
     Edit_Mutation.mutate(payload);
-    setImages(payload);
+    setImages(images);
     setUpdateImg(payload);
 
     alert("수정 완료")
-    // navigate("/")
+    navigate("/main")
   }
 
   const onCancleHandler = async (event) => {
     event.preventDefault();
-    navigate("/")
+    navigate("/main")
   }
   
 
@@ -84,15 +77,16 @@ function Profile() {
         <Title>프로필 변경</Title>
         <Content>
           <Left>
-            <IMG src={images} alt="image" />
+            <IMG src={updateimg}  />
             <InputProfile
               type="file"
               id="imagebox"
               accept="image/*"
               ref={fileInput}
-              src={updateimg}
+              src={detail.image}
               onChange={onImgChangeHandler}
             />
+            <UnIMG src={detail.image}/>
             <LabelProfile htmlFor="imagebox">
               <svg
                 width="24"
@@ -115,9 +109,10 @@ function Profile() {
             <Input 
             type="text" 
             name="nickname"
-            value={nickname}
+            placeholder={detail.nickname}
+            value={upnickname}
             onChange={(event) => {
-              setNickName(event.target.value);
+              setUPNickName(event.target.value);
             }}/>
             <SmallContent>
             <Emtitle>언어</Emtitle>
@@ -165,10 +160,21 @@ function Profile() {
 
 export default Profile
 const IMG = styled.img`  
-  width: 80px;
-  height: 80px;
+  width: 150px;
+  height: 150px;
   border-radius : 5px;
+  z-index:999;
+  position:absolute;
 `
+
+const UnIMG = styled.img`  
+  width: 150px;
+  height: 150px;
+  border-radius : 5px;
+  position: absolute;
+  left : 0;
+`
+
 const SaveBtn = styled.button`  
   width: 6rem;
   height: 3rem;
@@ -260,6 +266,7 @@ const LabelProfile = styled.label`
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  z-index : 999;
 `;
 
 const Right = styled.div`
@@ -330,3 +337,5 @@ const CheckArea = styled.div`
   padding-top : 10px;
   display : block;
 `;
+
+
