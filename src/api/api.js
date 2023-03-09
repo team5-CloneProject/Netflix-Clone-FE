@@ -1,5 +1,4 @@
-import { baseURL,instance } from "./axios/axios";
-
+import { instance } from "./axios/axios";
 //슬라이드에 들어갈 녀석들....
 export const MovieApi={
     popularGet:(page)=>instance.get(`/api/movie/popular?page=${page}`),//영화 인기순
@@ -17,3 +16,5 @@ export const MovieWish={
     MovieWishAdd:(WishAddBtn)=>instance.post(`/api/post/like/${WishAddBtn.id}`),//찜하기 추가/삭제
     MovieWishlist:()=>instance.get(`/api/post/like`)//찜목록조회
 }
+
+

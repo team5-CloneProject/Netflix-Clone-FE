@@ -51,7 +51,7 @@ function Header() {
         </Link>
         <MenuLink to={"/main"}>홈</MenuLink>
         <MenuLink to={"/mywish"}>내가 찜한 콘텐츠</MenuLink>
-        <MenuLink to={"/Language"}>언어별로 찾아보기</MenuLink>
+        {/* <MenuLink to={"/Language"}>언어별로 찾아보기</MenuLink> */}
       </Left>
       <Left>
         <Rightlist>
