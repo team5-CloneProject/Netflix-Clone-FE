@@ -55,7 +55,7 @@ function Popular() {
     <List>
       <ListTitle>
         <Title>넷플릭스 인기영화</Title>
-        <ListLink to="/">
+        <ListLink to="/main">
           <span>모두보기</span>
           <ArrowForward />
         </ListLink>

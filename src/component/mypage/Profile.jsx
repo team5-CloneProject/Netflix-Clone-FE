@@ -48,7 +48,6 @@ function Profile() {
 
   const onSubmitHandler = async (event) => {
     event.preventDefault();
-
     const formData = new FormData();
     formData.append("nickname", upnickname);
     formData.append("images", images);
@@ -144,6 +143,7 @@ function Profile() {
         <CheckBox 
           id="autoplay"
           type="checkbox" 
+          checked
           />
           <label htmlFor='autoplay'>모든 디바이스에서 탐색 중 미리보기 자동 재생</label>
         </CheckArea>
