@@ -217,9 +217,8 @@ const ProflieInner = styled.form`
   margin:0 auto;
 `;
 
-const Title = styled.div`
-  /* font-size: 4.6rem; */
-  font-size : 100%;
+const Title = styled.label`
+  font-size: 2rem;
   width : 300px;
   margin: 0.67em 0;
   line-height: 1;

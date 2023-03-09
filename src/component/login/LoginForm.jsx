@@ -8,14 +8,15 @@ import { Login } from '../../api/user/user';
 import { setCookie } from '../../api/axios/cookies';
 
 const LoginForm = () => {
-  // const navigate = useNavigate();
   const [email, setEmail]= useState('');
   const [password, setPassword]= useState('');
-  // const queryClient = useQueryClient();
+  const [pwType, setPwType] = useState({
+    type : "password",
+    visible : false
+  })
 
   const loginmutation = useMutation(Login, {
     onSuccess : (response) => {
-      // console.log(response)
       setCookie("access_token", response.headers.authorization);
       window.location.href = "/main";
       },
@@ -50,7 +51,7 @@ const LoginForm = () => {
         placeholder='이메일 주소'
         onChange={(e) => setEmail(e.target.value)}/>
         <Input 
-        type = "text"
+        type = {pwType.type}
         value={password}
         name='password'
         placeholder='비밀번호'

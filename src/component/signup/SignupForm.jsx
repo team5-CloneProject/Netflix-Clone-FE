@@ -15,7 +15,11 @@ const SignupForm = () => {
   const [passwordMatch, setPasswordMatch] = useState(false);
   const [isValidPassword, setIsValidPassword] = useState(false);
   const [isValidEmail, setIsValidEmail] = useState(false);
-
+  
+  const [pwType, setPwType] = useState({
+    type : "password",
+    visible : false
+  })
 
   //이메일 정규표현식
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -120,7 +124,7 @@ const SignupForm = () => {
         placeholder='이름'
         onChange={(e) => setNickname(e.target.value)}/>
         <Input
-        type='text'
+        type={pwType.type}
         value={userpassword} 
         name='PassWord'
         placeholder='비밀번호'
