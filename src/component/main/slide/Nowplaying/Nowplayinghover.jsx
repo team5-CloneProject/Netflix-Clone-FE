@@ -35,7 +35,7 @@ function Nowplayinghover({ item }) {
       console.log("실패하셨습니다.");
     },
   });
-  const [like, setLike] = useState(false);
+  const [like, setLike] = useState("LIKE");
   const likeHander = (id) => {
     const likeBtn = {
       id: id,
@@ -55,7 +55,7 @@ function Nowplayinghover({ item }) {
       console.log("실패하셨습니다.");
     },
   });
-  const [disLike, setDisLike] = useState(false);
+  const [disLike, setDisLike] = useState('DISLIKE');
   const disLikeHander = (id) => {
     const disLikeBtn = {
       id: id,
@@ -76,10 +76,11 @@ function Nowplayinghover({ item }) {
       console.log("실패하셨습니다.");
     },
   });
-  const [wishAdd, setWishAdd] = useState(false);
+  const [wishAdd, setWishAdd] = useState(item.id);
   const WishAddHander = (id) => {
     const WishAddBtn = {
       id: id,
+
     };
     WishAddmutation.mutate(WishAddBtn);
     setWishAdd(!wishAdd);
@@ -98,7 +99,7 @@ function Nowplayinghover({ item }) {
     }
   }, [infoOpen]);
   return (
-    <Slidehoverbox className="slidehover">
+    <Slidehoverbox className="slidehover" key={item.id}>
       <Hovermovie>
         <SlideImg src={item.poster_path} alt={item.title} />
       </Hovermovie>

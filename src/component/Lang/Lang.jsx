@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, {useRef} from "react";
 import { WishWrap, WishConWrap, WishConli } from "../wish/wixhstyle";
 import { Title } from "../main/slide/style";
 import { Slidemovie, SlideImg } from "../main/slide/style";
@@ -13,8 +13,15 @@ function Lang() {
     hasNextPage,
     isFetchingNextPage,
     status,
-  } = useInfiniteQuery("popular", ({ pageParam = 1 }) =>
-    MovieApi.popularGet(pageParam)
+  } = useInfiniteQuery(
+    "popular",
+    ({ pageParam = 1 }) => MovieApi.popularGet(pageParam),
+    {
+      getNextPageParam: (lastPage) => {
+        const { page, total_pages: totalPages } = lastPage.data;
+        return page < totalPages ? page + 1 : undefined;
+      },
+    }
   );
   const handleScroll = () => {
     const { current } = containerRef;
@@ -25,20 +32,23 @@ function Lang() {
       }
     }
   };
-  console.log(data);
+  console.log(status);
   return (
     <WishWrap>
       <Title>언어별로 찾아보기</Title>
       <WishConWrap ref={containerRef} onScroll={handleScroll}>
-        {data.pages
-          .flatMap((page) => page.data.response.results)
-          .map((movie) => (
-            <WishConli key={movie.id}>
-              <Slidemovie>
-                <SlideImg src={movie.poster_path} />
-              </Slidemovie>
-            </WishConli>
-          ))}
+        
+        {data.pages.map((page) => (
+          <React.Fragment key={page.data.page}>
+            {page.data.results.map((movie) => (
+              <WishConli key={movie.id}>
+                  <Slidemovie>
+                    <SlideImg src={movie.poster_path} />
+                  </Slidemovie>
+                </WishConli>
+            ))}
+          </React.Fragment>
+        ))}
         {isFetchingNextPage && <div>Loading more...</div>}
         {error && <div>Error: {error.message}</div>}
       </WishConWrap>
