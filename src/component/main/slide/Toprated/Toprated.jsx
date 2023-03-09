@@ -52,7 +52,7 @@ function Toprated() {
     <List>
       <ListTitle>
         <Title>최다 평점 콘텐츠</Title>
-        <ListLink to="/">
+        <ListLink to="/main">
           <span>모두보기</span>
           <ArrowForward />
         </ListLink>

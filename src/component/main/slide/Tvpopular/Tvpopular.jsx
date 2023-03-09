@@ -52,7 +52,7 @@ function Tvpopular() {
     <List>
       <ListTitle>
         <Title>인기 TV프로그램</Title>
-        <ListLink to="/">
+        <ListLink to="/main">
           <span>모두보기</span>
           <ArrowForward />
         </ListLink>
