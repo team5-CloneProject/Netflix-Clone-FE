@@ -16,7 +16,7 @@ const Router = () => {
         <Route path ="/main" element={<Main />}/>
         <Route path ="/mypage" element={<Mypage />}/>
         <Route path ="/mywish" element={<Mywish />}/>
-         <Route path ="/language" element={<Language />}/>
+        <Route path ="/language" element={<Language />}/>
       </Routes>
     </BrowserRouter>
   )

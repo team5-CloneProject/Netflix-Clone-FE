@@ -2,7 +2,7 @@ import React from 'react'
 import { WishWrap, WishConWrap, WishConli } from "../wish/wixhstyle";
 import { Title } from "../main/slide/style";
 import { Slidemovie, SlideImg } from "../main/slide/style";
-import { useQuery } from "react-query";
+
 function Lang() {
   return (
     <WishWrap>

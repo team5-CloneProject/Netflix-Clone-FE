@@ -3,16 +3,25 @@ import { Link } from "react-router-dom";
 import { HeaderWarp, Left, Logo, MenuLink, SearchInput,Rightlist, User, UserIcon, Arrow, Profile,} from "./style";
 import { AiOutlineSearch } from "react-icons/ai";
 import usericon from "../../img/usericon.png";
-import { useMutation } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import { removeCookie } from '../../api/axios/cookies';
 import { Login } from '../../api/user/user';
+import { MypageGet } from '../../api/user/mypage';
 
 function Header() {
+  const [detail, setDetail] = useState("");
+
+  const { data } = useQuery("MypageGet", MypageGet, {
+    onSuccess : (response) => {
+      setDetail(response);
+    }
+  });
+  console.log(data)
   const logoutmutation = useMutation(Login, {
     onSuccess : (response) => {
       removeCookie("access_token");
       alert ("로그아웃되었습니다.");
-      window.location.href = "/login";
+      window.location.href = "/";
 
       },
   });
@@ -69,7 +78,7 @@ function Header() {
         </Rightlist>
         <Rightlist>
           <User onClick={() => profileBtn()}>
-            <UserIcon src={usericon} alt="" />
+            <UserIcon src={detail.image} alt="" />
             <Arrow className={openProFile ? "on" : "off"}></Arrow>
           </User>
           {openProFile && (
