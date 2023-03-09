@@ -1,18 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import {
-  MainMovie,
-  MovieInfo,
-  MovieTitle,
-  MovieDesc,
-  PlayBtnWarp,
-  PlayBtn,
-  PlayIcon,
-  InfoIcon,
-  PlayInfo,
-  MainMovieImg,
-  Movieplay,
-  PlayButton,
-  Playopsion,
+import { MainMovie, MovieInfo, MovieTitle, MovieDesc, PlayBtnWarp, PlayBtn, PlayIcon, InfoIcon, PlayInfo, MainMovieImg, Movieplay,PlayButton, Playopsion,
 } from "./MainMovie";
 import { HiOutlineVolumeOff, HiOutlineVolumeUp } from "react-icons/hi";
 import { MdReplay } from "react-icons/md";
@@ -26,7 +13,9 @@ function Movie() {
       if (!infoOpen) {
         setIsImgplay(true);
       }
+
     }, 5000);
+
     setTimeoutId(id);
   };
   const playerRef = useRef(null);

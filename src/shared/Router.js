@@ -5,7 +5,8 @@ import Main from "../pages/Main";
 import Mypage from "../pages/Mypage";
 import Login from "../pages/Login";
 import Mywish from "../pages/Mywish";
-import Language from "../pages/Language";
+import TopRatepage from "../pages/TopRated";
+import Nowplaying from "../pages/Nowplaying";
 
 const Router = () => {
   return (
@@ -16,7 +17,8 @@ const Router = () => {
         <Route path ="/main" element={<Main />}/>
         <Route path ="/mypage" element={<Mypage />}/>
         <Route path ="/mywish" element={<Mywish />}/>
-         <Route path ="/language" element={<Language />}/>
+        <Route path ="/toprate" element={<TopRatepage />}/>
+        <Route path ="/nowplaying" element={<Nowplaying />}/> 
       </Routes>
     </BrowserRouter>
   )

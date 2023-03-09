@@ -12,7 +12,10 @@
     "react-cookie": "^4.1.1",
     "react-dom": "^18.2.0",
     "react-icons": "^4.8.0",
+<<<<<<< HEAD
     "react-infinite-scroll-component": "^6.1.0",
+=======
+>>>>>>> b5e6f0b4e1ae7b9bcd89b5c4faf797ef9113800e
     "react-intersection-observer": "^9.4.3",
     "react-query": "^3.39.3",
     "react-redux": "^8.0.5",
