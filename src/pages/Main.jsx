@@ -1,9 +1,16 @@
 import React from 'react'
-
-const Main = () => {
+import Header from '../component/header/Header'
+import MainWarp from "../component/main/MainWarp";
+import Footer from '../component/footer/Footer';
+import { MainMovieWrap } from '../component/main/style';
+const Page = () => {
   return (
-    <div>Main</div>
-  )
-}
+    <MainMovieWrap>
+      <Header />
+      <MainWarp />
+      <Footer/>
+    </MainMovieWrap>
+  );
+};
 
-export default Main
+export default Page;
