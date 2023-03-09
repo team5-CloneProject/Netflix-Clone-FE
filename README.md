@@ -28,7 +28,7 @@ tmdb의 api르 이용해 진행하였습니다.
 
 # 🔎 참고 링크
 - [협업 노션 페이지](https://jin29.notion.site/e1fbb1aaf8b94ee1a2b265eeb347ccb8?v=abae7a28c2d84bcdb71da069beaa933e)
-- [api 사이트] (https://www.themoviedb.org)
+- [api 사이트](https://www.themoviedb.org)
 
 ## Commit msg
 --- 제목 ---
